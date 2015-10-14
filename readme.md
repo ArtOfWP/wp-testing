@@ -1,11 +1,11 @@
 # WP Testing framework
 *__DISCLAIMER:__ This project is experimental.*
 
-This is a fork of the official WordPress testing tools. Main difference is that this fork is adapted to be used with Composer and thereby support autoloading.
-Another big difference is that the WP Unit testcases has been decoupled from the bootstrap file. This is good due to how PHPUnit works, PHPUnit loads all testfiles when it starts before this meant that the WordPress install and related activities were run even when they were not required.
-Everything related to WordPress Trac and the standard WordPress testsuite has also been removed.
+This is a fork of the official WordPress testing tools. This framework has been adapted to be used with Composer and thereby support autoloading.
+Another change is that the WP Unit test cases has been decoupled from the bootstrap file. This is good due to how PHPUnit works, PHPUnit loads all testfiles when it starts before this meant that the WordPress install and related activities were run even when they were not required.
+Most of the code that relates to WordPress Trac and the standard WordPress testsuite has also been removed.
 
-At it current state it requires the default WordPress testing setup to function.
+It is compatible with default WordPress testing setup.
 
 ## How to use
 ### Step 1
@@ -53,7 +53,16 @@ require $root_dir . '/vendor/autoload.php';
 
 ```
 
-Create a bootstrap for each test suite that requires one. For integration tests the following will install WordPress and activate plugins.
+Create a bootstrap for each test suite that requires one. Test suite bootstrap files are optional.
+
+- *tests/bootstrap-unit.php*
+- *tests/bootstrap-integration.php*
+- *tests/bootstrap-acceptance.php*
+- *tests/unit/bootstrap.php*
+- *tests/integration/bootstrap.php*
+- *tests/acceptance/bootstrap.php*
+
+For integration tests the following will install WordPress and activate plugins.
 
 ```php
 <?php
@@ -69,5 +78,3 @@ $GLOBALS['wp_tests_options'] = array(
 ### Step 4
 
 Depending on your setup just enter *phpunit* or *vendor/bin/phpunit* in the terminal. To run just the unit tests you enter *phpunit --testsuite unit*
-
-## All tests are belong to you now
