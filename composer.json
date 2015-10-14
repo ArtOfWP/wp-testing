@@ -1,0 +1,20 @@
+{
+  "name": "ArtOfWP/wp-testing",
+  "description": "Decoupled WordPress test framework for testing WordPress plugins and themes. Current version requires default WordPress test setup to run.",
+  "minimum-stability": "dev",
+  "license": "GPLv2",
+  "authors": [
+    {
+      "name": "Andreas Nurbo",
+      "email": "andreas@artofwp.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "ArtOfWP\\WP\\Testing\\": "src/"
+    }
+  },
+  "require": {
+    "phpunit/phpunit": "5.0.*"
+  }
+}
