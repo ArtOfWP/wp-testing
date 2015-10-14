@@ -1,5 +1,5 @@
 # WP Testing framework
-***DISCLAIMER:** This project is experimental.*
+*__DISCLAIMER:__ This project is experimental.*
 
 This is a fork of the official WordPress testing tools. Main difference is that this fork is adapted to be used with Composer and thereby support autoloading.
 Another big difference is that the WP Unit testcases has been decoupled from the bootstrap file. This is good due to how PHPUnit works, PHPUnit loads all testfiles when it starts before this meant that the WordPress install and related activities were run even when they were not required.
