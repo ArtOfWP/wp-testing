@@ -24,6 +24,7 @@ class WP_UnitTestCase extends \PHPUnit_Framework_TestCase {
 	 */
 	protected $factory;
 	private $matched_dirs;
+	private $temporaryTablesDisabled;
 
 	function setUp() {
 		set_time_limit(0);
@@ -101,6 +102,24 @@ class WP_UnitTestCase extends \PHPUnit_Framework_TestCase {
 		$_GET = array();
 		$_POST = array();
 		$this->flush_cache();
+	}
+
+    /**
+     * Disables temporary table creation. This is required if you want to join tables.
+     */
+	function disableTemporaryTables() {
+		$this->temporaryTablesDisabled=true;
+		remove_filter( 'query', array( $this, '_create_temporary_tables' ) );
+	}
+
+    /**
+     * Enables temporary tables if they have been disabled.
+     */
+	function enableTemporaryTables() {
+		if($this->temporaryTablesDisabled) {
+			add_filter( 'query', array( $this, '_create_temporary_tables' ) );
+			$this->temporaryTablesDisabled=true;
+		}
 	}
 
 	/**
