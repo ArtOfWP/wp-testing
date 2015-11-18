@@ -118,7 +118,7 @@ class WP_UnitTestCase extends \PHPUnit_Framework_TestCase {
 	function enableTemporaryTables() {
 		if($this->temporaryTablesDisabled) {
 			add_filter( 'query', array( $this, '_create_temporary_tables' ) );
-			$this->temporaryTablesDisabled=true;
+			$this->temporaryTablesDisabled=false;
 		}
 	}
 
