@@ -10,7 +10,7 @@ It is compatible with default WordPress testing setup.
 ## How to use
 ### Step 1
 Setup WordPress testing environment as usual. [See WordPress PHPUnit](https://make.wordpress.org/core/handbook/testing/automated-testing/phpunit/).
-This test framework uses the environment variable WP_TESTS_DIR  to locate the WordPress files.
+You need to provide the runner with the path to WordPress and to the config file. It does not use the WP_TESTS_DIR environment variable.
 
 ### Step 2
 Install this framework using Composer.
@@ -72,7 +72,7 @@ $GLOBALS['wp_tests_options'] = array(
         'my-plugin/my-plugin.php'
     )
 );
-(new WP_Bootstrap())->run();
+(new WP_Bootstrap($wordpress_path, __DIR__ . '/wp-tests-config.php'))->run();
 ```
 
 ### Step 4

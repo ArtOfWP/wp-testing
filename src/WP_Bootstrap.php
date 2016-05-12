@@ -4,20 +4,36 @@ namespace ArtOfWP\WP\Testing;
 use ArtOfWP\WP\Testing\Mocking\MockPHPMailer;
 
 class WP_Bootstrap {
-    public function run() {
-        $abspath = $this->get_abspath();
-        $config_file_path = $this->get_config_file_path();
+    /**
+     * @var string
+     */
+    private static $wordpress_path;
+    /**
+     * @var string
+     */
+    private $wordpress_config_file_path;
 
+    /**
+     * WP_Bootstrap constructor.
+     * @param string $wordpress_path The directory path to WordPress.
+     * @param string $wordpress_config_file_path The file path to the config file to use
+     */
+    public function __construct($wordpress_path, $wordpress_config_file_path) {
+        self::$wordpress_path = $wordpress_path;
+        $this->wordpress_config_file_path = $wordpress_config_file_path;
+    }
+    
+    public function run() {
         /*
          * Globalize some WordPress variables, because PHPUnit loads this file inside a function
          * See: https://github.com/sebastianbergmann/phpunit/issues/325
          */
         global $wpdb, $current_site, $current_blog, $wp_rewrite, $shortcode_tags, $wp, $phpmailer;
 
-        if ( !is_readable( $config_file_path ) ) {
+        if ( !is_readable( $this->get_config_file_path() ) ) {
             die( "ERROR: wp-tests-config.php is missing! Please use wp-tests-config-sample.php to create a config file.\n" );
         }
-        require_once $config_file_path;
+        require_once $this->get_config_file_path();
         /**
          * @var string $table_prefix
          */
@@ -44,7 +60,7 @@ class WP_Bootstrap {
 
         $phpmailer = new MockPHPMailer();
 
-        system( WP_PHP_BINARY . ' ' . escapeshellarg( dirname( __FILE__ ) . '/install.php' ) . ' ' . escapeshellarg( $config_file_path ) . ' ' . $multisite );
+        system( WP_PHP_BINARY . ' ' . escapeshellarg( dirname( __FILE__ ) . '/install.php' ) . ' ' . escapeshellarg( $this->get_config_file_path() ) . ' ' . $multisite );
 
         if ( $multisite ) {
             echo "Running as multisite..." . PHP_EOL;
@@ -63,7 +79,7 @@ class WP_Bootstrap {
 
 
 // Load WordPress
-        require_once $abspath . '/wp-settings.php';
+        require_once $this->get_abspath() . '/wp-settings.php';
 
 // Delete any default posts & related data
         _delete_all_posts();
@@ -90,20 +106,13 @@ class WP_Bootstrap {
      * @return string
      */
     public function get_config_file_path() {
-        $config_file_path = dirname(dirname(getenv('WP_TESTS_DIR')));
-        if (!file_exists($config_file_path . '/wp-tests-config.php')) {
-            // Support the config file from the root of the develop repository.
-            if (basename($config_file_path) === 'phpunit' && basename(dirname($config_file_path)) === 'tests')
-                $config_file_path = dirname(dirname($config_file_path));
-        }
-        $config_file_path .= '/wp-tests-config.php';
-        return $config_file_path;
+        return $this->wordpress_config_file_path;
     }
 
     /**
      * @return string
      */
-    public function get_abspath() {
-        return dirname(dirname(getenv('WP_TESTS_DIR'))) . '/src';
+    public static function get_abspath() {
+        return self::$wordpress_path;
     }
 }
