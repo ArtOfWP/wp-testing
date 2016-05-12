@@ -22,7 +22,7 @@ class WP_Bootstrap {
         self::$wordpress_path = $wordpress_path;
         $this->wordpress_config_file_path = $wordpress_config_file_path;
     }
-    
+
     public function run() {
         /*
          * Globalize some WordPress variables, because PHPUnit loads this file inside a function

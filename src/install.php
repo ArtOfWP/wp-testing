@@ -4,8 +4,6 @@
  *
  * @todo Reuse the init/load code in init.php
  */
-use ArtOfWP\WP\Testing\Mocking\MockPHPMailer;
-
 error_reporting( E_ALL & ~E_DEPRECATED & ~E_STRICT );
 
 $config_file_path = $argv[1];
@@ -26,9 +24,9 @@ require_once ABSPATH . '/wp-admin/includes/upgrade.php';
 require_once ABSPATH . '/wp-includes/wp-db.php';
 
 // Override the PHPMailer
-global $phpmailer;
 require_once( dirname( __FILE__ ) . '/Mocking/MockPHPMailer.php' );
-$phpmailer = new MockPHPMailer();
+global $phpmailer;
+$phpmailer = new \ArtOfWP\WP\Testing\Mocking\MockPHPMailer();
 /**
  * @var \wpdb $wpdb
  */

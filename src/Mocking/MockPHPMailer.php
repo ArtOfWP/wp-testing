@@ -1,8 +1,7 @@
 <?php
 namespace ArtOfWP\WP\Testing\Mocking;
-use ArtOfWP\WP\Testing\WP_Bootstrap;
-
-require_once ( WP_Bootstrap::get_abspath() . '/wp-includes/class-phpmailer.php' );
+$path = defined('ABSPATH') ? ABSPATH : \ArtOfWP\WP\Testing\WP_Bootstrap::get_abspath();
+require_once ( $path . '/wp-includes/class-phpmailer.php' );
 
 class MockPHPMailer extends \PHPMailer {
 	var $mock_sent = array();
