@@ -1,7 +1,8 @@
 <?php
 namespace ArtOfWP\WP\Testing\Mocking;
-$_tests_dir = getenv('WP_TESTS_DIR');
-require_once( dirname(dirname($_tests_dir)) . '/src/wp-includes/class-phpmailer.php' );
+use ArtOfWP\WP\Testing\WP_Bootstrap;
+
+require_once ( WP_Bootstrap::get_abspath() . '/wp-includes/class-phpmailer.php' );
 
 class MockPHPMailer extends \PHPMailer {
 	var $mock_sent = array();
